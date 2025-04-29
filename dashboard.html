@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthChain Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <style>
+        :root {
+            --neon-cyan: #00f2fe;
+            --cyber-purple: #bc00ff;
+            --matrix-green: #00ff88;
+            --hud-background: rgba(15, 23, 42, 0.95);
+            --deep-space: #0f172a;
+        }
+
+        body {
+            background: var(--deep-space);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .cyber-nav {
+            background: linear-gradient(45deg, #0f3460, #533483);
+            border-right: 2px solid var(--matrix-green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            padding: 20px;
+        }
+
+        .nav-link {
+            color: white !important;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 255, 136, 0.2),
+            transparent);
+            transition: 0.5s;
+        }
+
+        .nav-link:hover::before {
+            left: 100%;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+
+        .cyber-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--matrix-green);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .blockchain-network {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .data-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+            animation: nodePulse 2s infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 0.3; }
+        }
+
+        .chain-link {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 1.5rem;
+        }
+
+        .chain-link::before {
+            content: '⛓';
+            position: absolute;
+            left: 0;
+            color: var(--matrix-green);
+        }
+    </style>
+</head>
+<body>
+<!-- Blockchain Network Animation -->
+<div class="blockchain-network" id="network"></div>
+
+<!-- Cyber Navigation -->
+<nav class="cyber-nav">
+    <h2 class="text-center mb-4" style="color: var(--matrix-green)">HEALTHCHAIN</h2>
+    <div class="nav flex-column">
+        <a class="nav-link" th:href="@{/dashboard}">
+            <i class="fas fa-home me-2"></i>Dashboard
+        </a>
+
+        <a class="nav-link" th:href="@{/patient}">
+            <i class="fas fa-user-md me-2"></i>profile
+        </a>
+
+        <a class="nav-link" th:href="@{/admin/dashboard}">
+            <i class="fas fa-user-md me-2"></i>Admin
+        </a>
+
+        <a class="nav-link" th:href="@{/doctor/dashboard}">
+            <i class="fas fa-user-md me-2"></i>Doctors
+        </a>
+
+        <a class="nav-link" th:href="@{/bc-exp}">
+            <i class="fas fa-user-md me-2"></i>Blockchain Explorer
+        </a>
+
+
+        <a class="nav-link" th:href="@{/records/upload-record}">
+            <i class="fas fa-dna me-2"></i>Upload Records
+        </a>
+<!--        <a class="nav-link" th:href="@{/portfolio}">-->
+<!--            <i class="fas fa-user-cog me-2"></i>Portfolio-->
+<!--        </a>-->
+        <div class="mt-auto">
+            <a class="nav-link text-danger" th:href="@{/logout}">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-content">
+    <div class="row g-4">
+        <!-- Blockchain Stats -->
+        <div class="col-md-12">
+            <div class="cyber-card">
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <div class="chain-link">
+                            <h3 class="text-cyan">Current Block</h3>
+                            <h2 class="text-matrix" id="currentBlock">854,392</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="chain-link">
+                            <h3 class="text-cyan">Transactions</h3>
+                            <h2 class="text-matrix" id="txCount">2,431</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="chain-link">
+                            <h3 class="text-cyan">Nodes</h3>
+                            <h2 class="text-matrix">14</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <div class="chain-link">
+                            <h3 class="text-cyan">Latency</h3>
+                            <h2 class="text-matrix">127ms</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Statistics -->
+        <div class="col-md-8">
+            <div class="cyber-card h-100">
+                <h3 class="text-cyan mb-4">Patient Statistics</h3>
+                <canvas id="patientChart" style="height: 300px"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="col-md-4">
+            <div class="cyber-card h-100">
+                <h3 class="text-cyan mb-4">Blockchain Activity</h3>
+                <div class="activity-list">
+                    <div class="activity-item d-flex mb-3">
+                        <div class="text-matrix me-3">⛓</div>
+                        <div>
+                            <div>New Block Mined</div>
+                            <small class="text-muted">Block #854,393</small>
+                        </div>
+                    </div>
+                    <div class="activity-item d-flex mb-3">
+                        <div class="text-matrix me-3">🔗</div>
+                        <div>
+                            <div>Medical Record Updated</div>
+                            <small class="text-muted">TX: 0x4a5b...c7d8</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Create blockchain network nodes
+    function createNetwork() {
+        const network = document.getElementById('network');
+        for(let i = 0; i < 50; i++) {
+            const node = document.createElement('div');
+            node.className = 'data-node';
+            node.style.left = `${Math.random() * 100}%`;
+            node.style.top = `${Math.random() * 100}%`;
+            network.appendChild(node);
+        }
+    }
+    createNetwork();
+
+    // Patient Statistics Chart
+    const ctx = document.getElementById('patientChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Cardiology', 'Neurology', 'Pediatrics', 'Oncology'],
+            datasets: [{
+                label: 'Patients',
+                data: [65, 59, 80, 81],
+                backgroundColor: [
+                    'rgba(0, 255, 136, 0.7)',
+                    'rgba(79, 172, 254, 0.7)',
+                    'rgba(188, 0, 255, 0.7)',
+                    'rgba(255, 106, 0, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(0, 255, 136, 1)',
+                    'rgba(79, 172, 254, 1)',
+                    'rgba(188, 0, 255, 1)',
+                    'rgba(255, 106, 0, 1)'
+                ],
+                borderWidth: 2
+            }]
+        }
+    });
+
+    // Live block number update
+    setInterval(() => {
+        const blockElement = document.getElementById('currentBlock');
+        const currentBlock = parseInt(blockElement.textContent.replace(/,/g, ''));
+        blockElement.textContent = (currentBlock + 1).toLocaleString();
+    }, 5000);
+
+    // Live transaction count update
+    let txCount = 2431;
+    setInterval(() => {
+        document.getElementById('txCount').textContent =
+            (txCount += Math.floor(Math.random() * 3)).toLocaleString();
+    }, 3000);
+
+    // Animate navigation links
+    anime({
+        targets: '.nav-link',
+        translateX: [-50, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(100),
+        duration: 1000,
+        easing: 'easeOutExpo'
+    });
+</script>
+</body>
+</html>
+

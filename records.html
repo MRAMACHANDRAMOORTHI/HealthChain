@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blockchain Medical Records - HealthChain</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <style>
+
+        :root {
+            --matrix-green: #00ff88;
+            --cyber-cyan: #00f2fe;
+            --hologram-purple: #bc00ff;
+            --deep-space: #0f172a;
+        }
+
+        body {
+            background: var(--deep-space);
+            color: white;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+        }
+
+        .blockchain-header {
+            background: linear-gradient(135deg,
+            rgba(0, 255, 136, 0.1),
+            rgba(79, 172, 254, 0.1));
+            border: 2px solid var(--matrix-green);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blockchain-header::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 255, 136, 0.05),
+            transparent);
+            animation: scan 6s linear infinite;
+        }
+
+        .record-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .blockchain-hash {
+            font-family: monospace;
+            color: var(--matrix-green);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .blockchain-hash:hover {
+            text-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        .verification-badge {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--matrix-green);
+            border-radius: 20px;
+            padding: 5px 15px;
+            animation: badgeGlow 2s infinite;
+        }
+
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 136, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+        }
+
+        .network-visual {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .data-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+            animation: nodePulse 2s infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+<div class="network-visual" id="network"></div>
+
+<div class="container py-5">
+    <!-- Header -->
+    <div class="blockchain-header mb-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2><i class="fas fa-link"></i> Blockchain-Verified Records</h2>
+                <p>Immutable medical history stored on HealthChain</p>
+                <strong>Success!</strong> <p>File uploaded successfully.<p/>
+            </div>
+            <div class="col-md-6 text-end">
+                <div class="verification-badge d-inline-block">
+                    <i class="fas fa-check-circle"></i> Network Status: 14 Nodes Active
+                </div>
+            </div>
+<br><br>
+            <div class="container">
+                <h2 class="mb-4">Your Medical Records</h2>
+                <div th:if="${records.empty}">
+                    <p>No records found. Please upload a record.</p>
+                </div>
+                <div th:each="record : ${records}" class="record-card">
+                    <h5 th:text="'Record: ' + ${record.recordName}">Record Name</h5>
+                    <p><strong>Date:</strong> <span th:text="${record.uploadDate}">2025-04-01</span></p>
+                    <p><strong>Uploaded by:</strong> <span th:text="${record.patientEmail}">patient@example.com</span></p>
+                    <a th:href="@{'/records/view/' + ${record.id}}" class="btn btn-outline-success btn-edit">View</a>
+                    <a th:href="@{'/records/edit/' + ${record.id}}" class="btn btn-outline-warning">Edit</a>
+                </div>
+            </div>
+
+<!-- Network Status Bar -->
+<div class="network-status fixed-bottom bg-dark p-2">
+    <div class="container d-flex justify-content-between">
+        <div>
+            <span class="me-3">🟢 LIVE</span>
+            <span>Block: <span id="currentBlock">854,392</span></span>
+            <span class="ms-3">TX Count: <span id="txCount">2,431</span></span>
+        </div>
+        <div>
+            <span class="me-3">Nodes: 14 Connected</span>
+            <span>Latency: 127ms</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Create blockchain network visualization
+    function createNetwork() {
+        const network = document.getElementById('network');
+        for(let i = 0; i < 50; i++) {
+            const node = document.createElement('div');
+            node.className = 'data-node';
+            node.style.left = `${Math.random() * 100}%`;
+            node.style.top = `${Math.random() * 100}%`;
+            network.appendChild(node);
+        }
+    }
+    createNetwork();
+
+    // Live blockchain updates
+    let currentBlock = 854392;
+    let txCount = 2431;
+    setInterval(() => {
+        currentBlock++;
+        txCount += Math.floor(Math.random() * 3);
+        document.getElementById('currentBlock').textContent =
+            currentBlock.toLocaleString();
+        document.getElementById('txCount').textContent =
+            txCount.toLocaleString();
+    }, 3000);
+
+    // Show block details
+    function showBlockDetails(hash) {
+        const modalHtml = `
+                <div class="modal fade" id="blockModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-dark text-white">
+                            <div class="modal-header border-secondary">
+                                <h5 class="modal-title">Blockchain Verification</h5>
+                                <button type="button" class="btn-close btn-close-white"
+                                        data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <div class="text-cyan">Transaction Hash:</div>
+                                    <div class="blockchain-hash">${hash}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="text-cyan">Block Number:</div>
+                                        <div>${currentBlock}</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="text-cyan">Confirmations:</div>
+                                        <div>14/14 Nodes</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        new bootstrap.Modal(document.getElementById('blockModal')).show();
+    }
+</script>
+</body>
+</html>

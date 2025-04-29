@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Header Fragment -->
+<div th:fragment="header">
+  <header class="header">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="container">
+        <!-- ... same topbar content ... -->
+      </div>
+    </div>
+    <!-- Header Inner -->
+    <div class="header-inner">
+      <div class="container">
+        <!-- ... same header content ... -->
+        <nav class="navigation">
+          <ul class="nav menu">
+            <li class="active"><a th:href="@{/}">Home</a></li>
+            <li><a th:href="@{/doctors}">Doctors</a></li>
+            <li><a th:href="@{/services}">Services</a></li>
+            <!-- ... other menu items ... -->
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+</div>
+
+<!-- Footer Fragment -->
+<div th:fragment="footer">
+  <footer id="footer" class="footer">
+    <!-- ... footer content ... -->
+  </footer>
+</div>
+
+<!-- Scripts Fragment -->
+<div th:fragment="scripts">
+  <script th:src="@{/js/jquery.min.js}"></script>
+  <!-- ... other scripts ... -->
+  <script th:src="@{/js/main.js}"></script>
+</div>
+
+</body>
+</html>

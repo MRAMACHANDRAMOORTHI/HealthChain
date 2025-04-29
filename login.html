@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - HealthChain</title>
+    <style>
+        /* Full-screen gradient background */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #00122d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            animation: gradientShift 15s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        /* Massive Login Container */
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            width: 350px;
+            text-align: center;
+            color: #fff;
+        }
+        .login-container h2 {
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .login-container label {
+            margin: 10px 0 5px;
+            text-align: left;
+            font-weight: bold;
+        }
+        .login-container input {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .login-container button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            background: #ff6a00;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-container button:hover {
+            background: #e65c00;
+        }
+        .login-container p {
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        .login-container a {
+            color: #ffdd57;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+        /* Error message styling */
+        .error-message {
+            color: #ff8080;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login to HealthChain</h2>
+    <!-- Display error messages if present -->
+    <div class="error-message">
+        <!-- Error text can be injected by the backend or via URL query parameters -->
+    </div>
+    <form action="/login" method="post">
+        <label>Email:</label>
+        <input type="text" name="username" placeholder="Enter Email" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" placeholder="Enter Password" required>
+
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/signup">Sign up</a></p>
+</div>
+</body>
+</html>

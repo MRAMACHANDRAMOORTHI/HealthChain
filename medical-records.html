@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Blockchain Medical Records - HealthChain</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3.js@1.5.2/dist/web3.min.js"></script>
+    <style>
+        :root {
+            --cyber-blue: #00f2fe;
+            --neon-green: #00ff88;
+            --hacker-purple: #bc00ff;
+            --deep-space: #0f172a;
+        }
+
+        body {
+            background: var(--deep-space);
+            color: white;
+            font-family: 'Courier New', monospace;
+        }
+
+        .blockchain-header {
+            background: linear-gradient(90deg, var(--cyber-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+        }
+
+        .record-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--neon-green);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .record-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg,
+            transparent,
+            rgba(0, 255, 136, 0.1),
+            transparent
+            );
+            animation: scanBeam 3s infinite;
+        }
+
+        @keyframes scanBeam {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .tx-hash {
+            font-family: monospace;
+            color: var(--neon-green);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tx-hash::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s;
+        }
+
+        .tx-hash:hover::after {
+            width: 100%;
+        }
+
+        .blockchain-visualizer {
+            border: 2px solid var(--cyber-blue);
+            border-radius: 15px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .block-node {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-green);
+            border-radius: 50%;
+            animation: nodePulse 1.5s infinite;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <h1 class="blockchain-header text-center mb-5">⛓ Blockchain Medical Records</h1>
+
+    <div class="row mb-5">
+        <div class="col-md-6">
+            <div class="blockchain-visualizer" id="blockchainViz">
+                <div class="position-absolute top-50 start-50 translate-middle">
+                    <h3 class="text-center">Live Network Activity</h3>
+                    <div class="text-center" id="blockCounter">Block: 854,392</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-dark border-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📊 Record Statistics</h5>
+                    <canvas id="recordChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>🔍 Search Medical Records</h3>
+        <input type="text" class="form-control bg-dark text-light"
+               placeholder="Search by Patient/Record ID" style="max-width: 300px;"
+               id="searchInput">
+    </div>
+
+    <div th:each="record : ${records}" class="record-card">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 th:text="${record.patientName}">Patient Name</h5>
+                <div class="text-muted" th:text="${record.recordType}">Record Type</div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-2">
+                    <span class="text-cyber">Block Hash:</span>
+                    <span class="tx-hash" th:text="${#strings.abbreviate(record.blockHash, 14)}"></span>
+                </div>
+                <div class="text-success">
+                    ✅ Verified <span class="badge bg-success ms-2">3 Confirmations</span>
+                </div>
+            </div>
+            <div class="col-md-4 text-end">
+                <button class="btn btn-outline-success me-2"
+                        onclick="verifyOnChain(this)"
+                        data-hash="${record.blockHash}">
+                    🔄 Re-verify
+                </button>
+                <a th:href="@{${record.fileUrl}}"
+                   class="btn btn-cyber"
+                   style="background: var(--cyber-blue); color: white">
+                    📁 View File
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Initialize blockchain visualization
+    function initBlockchainViz() {
+        const container = document.getElementById('blockchainViz');
+        for(let i = 0; i < 50; i++) {
+            const node = document.createElement('div');
+            node.className = 'block-node';
+            node.style.left = `${Math.random() * 100}%`;
+            node.style.top = `${Math.random() * 100}%`;
+            node.style.animationDelay = `${Math.random() * 2}s`;
+            container.appendChild(node);
+        }
+    }
+    initBlockchainViz();
+
+    // Initialize chart
+    new Chart(document.getElementById('recordChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Lab Reports', 'Prescriptions', 'Scans', 'Vaccinations'],
+            datasets: [{
+                data: [35, 25, 20, 20],
+                backgroundColor: [
+                    '#00ff88', '#00f2fe', '#bc00ff', '#4facfe'
+                ]
+            }]
+        }
+    });
+
+    // Live block counter
+    setInterval(() => {
+        const blockElement = document.getElementById('blockCounter');
+        blockElement.textContent = `Block: ${(parseInt(blockElement.textContent.replace(/\D/g, '')) + 1}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }, 3000);
+
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase();
+        document.querySelectorAll('.record-card').forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(searchTerm) ? 'block' : 'none';
+        });
+    });
+
+    // Verification function
+    function verifyOnChain(button) {
+        const hash = button.dataset.hash;
+        button.innerHTML = '<div class="spinner-border spinner-border-sm"></div> Verifying...';
+        setTimeout(() => {
+            button.innerHTML = '✅ Verified';
+            button.classList.remove('btn-outline-success');
+            button.classList.add('btn-success');
+        }, 2000);
+    }
+</script>
+</body>
+</html>
