@@ -7,10 +7,7 @@
     <meta name="keywords" content="Site keywords here" />
     <meta name="description" content="" />
     <meta name="copyright" content="" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Title -->
     <title>HealthChain</title>
@@ -19,14 +16,8 @@
     <link rel="icon" href="img/favicon.png" />
 
     <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -49,6 +40,77 @@
 
     <!-- Medipro CSS -->
     <link rel="stylesheet" href="css/normalize.css" />
+    <style>
+      /* Custom CSS to fix layout issues */
+      body {
+        overflow-x: hidden;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+      }
+      
+      .header-inner .container-fluid {
+        max-width: 100%;
+      }
+      
+      .header-inner .inner {
+        width: 100%;
+        padding: 0 15px;
+      }
+      
+      .slider .single-slider {
+        width: 100%;
+        background-size: cover;
+        background-position: center;
+        height: 650px;
+      }
+      
+      .slider .hero-inner {
+        width: 100%;
+      }
+      
+      .slider .text {
+        max-width: 700px;
+      }
+      
+      /* Fix for the navigation menu */
+      .main-menu {
+        width: 100%;
+      }
+      
+      /* General width fixes */
+      .row {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      
+      section {
+        width: 100%;
+      }
+      
+      /* Responsive fixes */
+      @media (max-width: 767px) {
+        .header-inner .logo {
+          text-align: center;
+          margin-bottom: 15px;
+        }
+        
+        .slider .single-slider {
+          height: 450px;
+        }
+        
+        .slider .text h1 {
+          font-size: 28px;
+        }
+      }
+    </style>
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/responsive.css" />
 
@@ -63,7 +125,7 @@
         }, 500);
       });
 
-      // Pro Features Toggle - Fixed Version
+      // Pro Features Toggle
       document.addEventListener("DOMContentLoaded", function () {
         const getProButton = document.querySelector(".get-pro");
         const proFeatures = document.querySelector(".pro-features");
@@ -90,10 +152,7 @@
         <div class="indicator">
           <svg width="16px" height="12px">
             <polyline id="back" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
-            <polyline
-              id="front"
-              points="1 6 4 6 6 11 10 1 12 6 15 6"
-            ></polyline>
+            <polyline id="front" points="1 6 4 6 6 11 10 1 12 6 15 6"></polyline>
           </svg>
         </div>
       </div>
@@ -110,22 +169,17 @@
       <li>mrcmoorthi@gmail.com</li>
       <li><i class="fa fa-phone"></i>+91 80723 65616</li>
       <li>
-        <i class="fa fa-envelope"></i
-        ><a href="mailto:healthchain.msr@gmail.com"
-          >healthchain.msr@gmail.com</a
-        >
+        <i class="fa fa-envelope"></i><a href="mailto:healthchain.msr@gmail.com">healthchain.msr@gmail.com</a>
       </li>
       <div class="button">
-        <a href="mailto:healthchain.msr@gmail.com" target="_blank" class="btn"
-          >Pro Version Demo</a
-        >
+        <a href="mailto:healthchain.msr@gmail.com" target="_blank" class="btn">Pro Version Demo</a>
       </div>
     </ul>
 
     <!-- Header Area -->
     <header class="header">
       <div class="topbar">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row">
             <div class="col-lg-6 col-md-5 col-12">
               <ul class="top-link">
@@ -139,10 +193,7 @@
               <ul class="top-contact">
                 <li><i class="fa fa-phone"></i>+91 80723 65616</li>
                 <li>
-                  <i class="fa fa-envelope"></i
-                  ><a href="mailto:healthchain.msr@gmail.com"
-                    >healthchain.msr@gmail.com</a
-                  >
+                  <i class="fa fa-envelope"></i><a href="mailto:healthchain.msr@gmail.com">healthchain.msr@gmail.com</a>
                 </li>
               </ul>
             </div>
@@ -150,25 +201,23 @@
         </div>
       </div>
       <div class="header-inner">
-  <div class="container-fluid">
-    <div class="inner">
-      <div class="row">
-        <div class="col-lg-3 col-md-3 col-12">
-          <div class="logo">
-            <a href="index.html">
-              <img src="img/logo.png" alt="Logo" />
-            </a>
-          </div>
-          <div class="mobile-nav"></div>
-        </div>
-        <div class="col-lg-9 col-md-9 col-12"> <!-- Updated from col-lg-7 to col-lg-9 -->
-          <div class="main-menu">
-            <nav class="navigation">
-              <ul class="nav menu">
+        <div class="container-fluid">
+          <div class="inner">
+            <div class="row">
+              <div class="col-lg-3 col-md-3 col-12">
+                <div class="logo">
+                  <a href="index.html">
+                    <img src="img/logo.png" alt="Logo" />
+                  </a>
+                </div>
+                <div class="mobile-nav"></div>
+              </div>
+              <div class="col-lg-9 col-md-9 col-12">
+                <div class="main-menu">
+                  <nav class="navigation">
+                    <ul class="nav menu">
                       <li class="active">
-                        <a href="#"
-                          >Home <i class="icofont-rounded-down"></i
-                        ></a>
+                        <a href="#">Home <i class="icofont-rounded-down"></i></a>
                         <ul class="dropdown">
                           <li><a href="index.html">Home Page 1</a></li>
                         </ul>
@@ -176,17 +225,13 @@
                       <li><a href="doctor-dashboard.html">Doctors</a></li>
                       <li><a href="#fun-facts">Why Us</a></li>
                       <li>
-                        <a href="#"
-                          >Appointment <i class="icofont-rounded-down"></i
-                        ></a>
+                        <a href="#">Appointment <i class="icofont-rounded-down"></i></a>
                         <ul class="dropdown">
                           <li><a href="#appointment">Appointment</a></li>
                         </ul>
                       </li>
                       <li>
-                        <a href="#"
-                          >Register <i class="icofont-rounded-down"></i
-                        ></a>
+                        <a href="#">Register <i class="icofont-rounded-down"></i></a>
                         <ul class="dropdown">
                           <li><a href="signup.html">New User</a></li>
                           <li><a href="login.html">Sign in</a></li>
@@ -195,38 +240,38 @@
                       <li><a href="#footer">Contact Us</a></li>
                     </ul>
                   </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    </header>
-    <!-- End Header Area -->
-
-    <!-- Slider Area -->
-    <section class="slider">
-  <div class="hero-slider">
-    <div class="single-slider" style="background-image: url('img/slider2.jpg'); width: 100%;">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-7">
-            <div class="text">
-              <h1>Revolutionizing <span>Healthcare</span> with <span>Blockchain!</span></h1>
-              <p>HealthChain ensures secure, decentralized, and tamper-proof medical records for patients and healthcare providers.</p>
-              <div class="hero-buttons">
-                <a href="login.html" class="btn btn-primary">Login</a>
-                <a href="signup.html" class="btn btn-secondary">Sign Up</a>
-                <a href="#appointment" class="btn btn-success">Book Appointment</a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-     <!--End  Slider Area -->
+    </header>
+    <!-- End Header Area -->
+
+    <!-- Slider Area -->
+    <section class="slider">
+      <div class="hero-slider">
+        <div class="single-slider" style="background-image: url('img/slider2.jpg');">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-lg-7">
+                <div class="text">
+                  <h1>Revolutionizing <span>Healthcare</span> with <span>Blockchain!</span></h1>
+                  <p>HealthChain ensures secure, decentralized, and tamper-proof medical records for patients and healthcare providers.</p>
+                  <div class="hero-buttons">
+                    <a href="login.html" class="btn btn-primary">Login</a>
+                    <a href="signup.html" class="btn btn-secondary">Sign Up</a>
+                    <a href="#appointment" class="btn btn-success">Book Appointment</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--End Slider Area -->
     
     <!-- Start Schedule Area -->
     <section class="schedule section" id="schedule">
@@ -246,9 +291,7 @@
                       HealthChain ensures encrypted and tamper-proof medical
                       records accessible only by authorized users.
                     </p>
-                    <a href="login.html"
-                      >LEARN MORE<i class="fa fa-long-arrow-right"></i
-                    ></a>
+                    <a href="login.html">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -266,9 +309,7 @@
                       Doctors can securely access verified patient records,
                       improving efficiency and reducing errors.
                     </p>
-                    <a href="login.html"
-                      >LEARN MORE<i class="fa fa-long-arrow-right"></i
-                    ></a>
+                    <a href="login.html">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -289,9 +330,7 @@
                       <li class="day">Saturday <span>24/7 Access</span></li>
                       <li class="day">Sunday <span>24/7 Access</span></li>
                     </ul>
-                    <a href="login.html"
-                      >LEARN MORE<i class="fa fa-long-arrow-right"></i
-                    ></a>
+                    <a href="login.html">LEARN MORE<i class="fa fa-long-arrow-right"></i></a>
                   </div>
                 </div>
               </div>
@@ -988,6 +1027,7 @@
       </div>
     </section>
     <!-- /End Newsletter Area -->
+    
     <!-- Include necessary JavaScript libraries -->
     <script src="js/jquery-migrate-3.0.0.js"></script>
     <script src="js/popper.min.js"></script>
@@ -1008,68 +1048,59 @@
     <script src="js/main.js"></script>
 
     <script>
-      // Remove the conflicting hero slider initialization from inline script
-      // Let the one in main.js handle it
-
-      window.addEventListener("load", function () {
-        // Hide preloader after page load
-        setTimeout(function () {
-          document.querySelector(".preloader").style.display = "none";
-        }, 500);
-      });
-
-      // Pro Features Toggle - Fixed Version
-      document.addEventListener("DOMContentLoaded", function () {
-        const getProButton = document.querySelector(".get-pro");
-        const proFeatures = document.querySelector(".pro-features");
-
-        // Ensure the panel starts in the correct position
-        proFeatures.classList.remove("active");
-
-        getProButton.addEventListener("click", function (e) {
-          e.preventDefault();
-
-          // Toggle the active class which controls positioning via CSS
-          proFeatures.classList.toggle("active");
+      // Updated smooth scrolling for the page
+      $(document).ready(function() {
+        $('a[href^="#"]').on('click', function(event) {
+          var target = $(this.getAttribute('href'));
+          if (target.length) {
+            event.preventDefault();
+            $('html, body').stop().animate({
+              scrollTop: target.offset().top - 70
+            }, 1000);
+          }
         });
       });
-    </script>
-    <script>
-      // JavaScript to handle form submissions for static deployment
+
+      // Counter animation
+      document.addEventListener("DOMContentLoaded", function () {
+        const counters = document.querySelectorAll(".counter");
+        counters.forEach((counter) => {
+          counter.innerText = "0";
+          const target = +counter.getAttribute("data-target");
+          const updateCounter = () => {
+            const current = +counter.innerText;
+            const increment = target / 200;
+            if (current < target) {
+              counter.innerText = Math.ceil(current + increment);
+              setTimeout(updateCounter, 500);
+            } else {
+              counter.innerText = target;
+            }
+          };
+          updateCounter();
+        });
+      });
+
+      // Form submission handlers
       function handleAppointmentSubmit(event) {
         event.preventDefault();
-
-        // Get form data
         const form = document.getElementById("appointmentForm");
         const name = form.elements["name"].value;
         const email = form.elements["email"].value;
         const department = form.elements["department"].value;
         const appointmentDate = form.elements["appointment_date"].value;
-
      
-
         alert(
           `Thank you, ${name}! Your appointment request for ${department} on ${appointmentDate} has been received. We will contact you at ${email} to confirm your appointment.`
         );
-
-        // Optional: redirect to a thank you page
-        // window.location.href = "appointment-success.html";
-
-        // Reset the form
         form.reset();
       }
 
       function handleSubscribeSubmit(event) {
         event.preventDefault();
-
-        // Get form data
         const form = event.target;
         const email = form.elements["email"].value;
-
-        // Show success message
         alert(`Thank you for subscribing! Updates will be sent to ${email}`);
-
-        // Reset the form
         form.reset();
       }
     </script>
