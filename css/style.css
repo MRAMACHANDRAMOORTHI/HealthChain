@@ -696,21 +696,16 @@ body{
 	height: 230px;
 }
 .schedule .schedule-inner {
-	position: relative;
-	transform: translateY(-50%);
-	z-index:9;
+    transform: none !important;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 0 auto;
 }
 .schedule .single-schedule {
-	position: relative;
-	text-align: left;
-	z-index:3;
-	border-radius:5px;
-	background:#1A76D1;
-	 -webkit-transition: all .3s ease-out 0s;
-    -moz-transition: all .3s ease-out 0s;
-    -ms-transition: all .3s ease-out 0s;
-    -o-transition: all .3s ease-out 0s;
-    transition: all .3s ease-out 0s;
+    flex: 1 1 calc(33.333% - 20px);
+    margin: 0;
 }
 .schedule .single-schedule .inner {
 	overflow:hidden;
