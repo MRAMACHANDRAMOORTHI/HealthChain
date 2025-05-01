@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -49,26 +50,39 @@
         padding: 0;
       }
       
-      .container-fluid {
-        padding-left: 0;
-        padding-right: 0;
+      /* Fix header width */
+      .header, .header-inner {
         width: 100%;
-      }
-      
-      .header-inner .container-fluid {
         max-width: 100%;
       }
       
+      /* Fix container alignment */
+      .container, .container-fluid {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      
+      /* Fix for header inner */
       .header-inner .inner {
         width: 100%;
         padding: 0 15px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
       }
       
+      /* Fix for slider */
       .slider .single-slider {
         width: 100%;
         background-size: cover;
         background-position: center;
         height: 650px;
+        display: flex;
+        align-items: center;
       }
       
       .slider .hero-inner {
@@ -77,22 +91,91 @@
       
       .slider .text {
         max-width: 700px;
+        margin-left: 0;
       }
       
-      /* Fix for the navigation menu */
+      /* Fix for main menu */
       .main-menu {
+        display: flex;
+        justify-content: flex-end;
         width: 100%;
       }
       
-      /* General width fixes */
+      /* Fix rows width */
       .row {
         width: 100%;
         margin-left: 0;
         margin-right: 0;
+        display: flex;
+        flex-wrap: wrap;
       }
       
+      /* Fix sections */
       section {
         width: 100%;
+        display: block;
+        clear: both;
+      }
+      
+      /* Logo size fix */
+      .logo img {
+        max-width: 100%;
+        height: auto;
+      }
+      
+      /* Fix mobile menu */
+      .slicknav_menu {
+        display: none;
+      }
+      
+      /* Ensure sections are properly spaced */
+      section {
+        padding: 60px 0;
+      }
+      
+      section.slider {
+        padding: 0;
+      }
+      
+      /* Pro features panel positioning fix */
+      .pro-features {
+        position: fixed;
+        right: -300px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 300px;
+        background: #fff;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        z-index: 9999;
+        padding: 20px;
+        transition: all 0.3s ease;
+        list-style: none;
+        border-radius: 5px 0 0 5px;
+      }
+      
+      .pro-features.active {
+        right: 0;
+      }
+      
+      .get-pro {
+        position: absolute;
+        left: -60px;
+        top: 0;
+        background: #1A76D1;
+        color: #fff;
+        padding: 10px 15px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: 12px;
+        border-radius: 5px 0 0 5px;
+        transform: rotate(-90deg);
+        transform-origin: right bottom;
+      }
+      
+      .get-pro:hover {
+        background: #2196F3;
+        color: #fff;
       }
       
       /* Responsive fixes */
@@ -108,6 +191,19 @@
         
         .slider .text h1 {
           font-size: 28px;
+        }
+        
+        /* Show mobile menu */
+        .mobile-nav {
+          display: block;
+        }
+        
+        .main-menu {
+          display: none;
+        }
+        
+        .slicknav_menu {
+          display: block;
         }
       }
     </style>
@@ -179,7 +275,7 @@
     <!-- Header Area -->
     <header class="header">
       <div class="topbar">
-        <div class="container-fluid">
+        <div class="container">
           <div class="row">
             <div class="col-lg-6 col-md-5 col-12">
               <ul class="top-link">
@@ -201,7 +297,7 @@
         </div>
       </div>
       <div class="header-inner">
-        <div class="container-fluid">
+        <div class="container">
           <div class="inner">
             <div class="row">
               <div class="col-lg-3 col-md-3 col-12">
@@ -253,7 +349,7 @@
     <section class="slider">
       <div class="hero-slider">
         <div class="single-slider" style="background-image: url('img/slider2.jpg');">
-          <div class="container-fluid">
+          <div class="container">
             <div class="row">
               <div class="col-lg-7">
                 <div class="text">
